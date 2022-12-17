@@ -3,6 +3,10 @@ class Maze
     //данные
     int playerx=1;
     int playery=1;
+    bool key1=false;
+    bool key2=false;
+    public int i=0;
+    public bool end = false;
     int[,] maze = new int[,]
     {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -31,63 +35,58 @@ class Maze
     //методы
     public void Move(int dx, int dy)
     {   
-        bool key1=false;
-        bool key2=false;
         int nx = playerx + dx;
         int ny = playery + dy;
-        if (maze[ny,nx] == 0||maze[ny,nx] == 2 || maze[ny,nx]==4||maze[ny,nx]==6||maze[ny,nx]==7)
+
+        if (maze[ny,nx] == 0)
         {
             playerx = nx;
             playery = ny;
-            int i=0;
-            
-            if (maze[ny,nx]==2)
-            {
-                key1=true;
-                maze[ny,nx]=0;
-            }
-            else if(maze[ny,nx]==3 && key1)
-            {
-                maze[ny,nx]=0;
-            }
-            else if (maze[ny,nx]==4)
-            {
-                key2=true;
-                maze[ny,nx]=0;
-            }
-            else if(maze[ny,nx]==5 && key2)
-            {
-                maze[ny,nx]=0;
-            }
-            else if(maze[ny,nx]==6)
-            {
-                maze[ny,nx]=0;
-                i=i+1;
-            }
-            else if(maze[ny,nx]==7)
-            {
-                maze[ny,nx]=0;
-                Console.Clear();
-                Console.WriteLine("Конец игры");
-                Console.WriteLine($"Количество монет:{i}");
-            }
-    
         }
-        else if (maze[ny,nx] ==3 && !key1)
+        else if (maze[ny,nx]==2)
         {
-            maze[ny,nx] = 0;
+            playerx = nx;
+            playery = ny;
+            key1=true;
+            maze[ny,nx]=0;
         }
-        else if (maze[ny,nx] == 5 && !key2)
+        else if(maze[ny,nx]==3 && key1)
         {
-            maze[ny,nx] = 0;
+            playerx = nx;
+            playery = ny;
+            maze[ny,nx]=0;
         }
-        
+        else if (maze[ny,nx]==4)
+        {
+            playerx = nx;
+            playery = ny;
+            key2=true;
+            maze[ny,nx]=0;
+        }
+        else if(maze[ny,nx]==5 && key2)
+        {
+            playerx = nx;
+            playery = ny;
+            maze[ny,nx]=0;
+        }
+        else if(maze[ny,nx]==6)
+        {
+            playerx = nx;
+            playery = ny;
+            maze[ny,nx]=0;
+            i=i+1;
+        }
+        else if(maze[ny,nx]==7)
+        {
+            maze[ny,nx]=0;
+            end = true;
+        }
     }   
     
     public void Print(int shiftx, int shifty)
     {
-        for (int y=0; y<10; y++)
-            for (int x=0; x<20; x++)
+        for (int y=0; y<maze.GetLength(0); y++)
+            for (int x=0; x<maze.GetLength(1); x++)
             {
                 double dist = Math.Sqrt((playerx-x)*(playerx-x) + (playery-y)*(playery-y));
                 if (dist > 3.7)
