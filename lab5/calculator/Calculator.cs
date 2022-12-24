@@ -1,7 +1,6 @@
 using System.Globalization;
 class Calculator
 {
-    //data
     string _screen;
     string _memory;
     string _op;
@@ -12,7 +11,6 @@ class Calculator
         get { return _screen; }
     }
 
-    //methods
     public Calculator()
     {
         _screen = "0";
@@ -69,7 +67,7 @@ class Calculator
                 _screen = "Error";
                 return CalcState.Error;
         }
-    } //done
+    }
 
     CalcState ProcessOperation(string key)
     {
@@ -77,26 +75,26 @@ class Calculator
         {
             case KeyKind.Digit:
                 _screen = key;
-                return CalcState.Input2; //3
+                return CalcState.Input2; 
             case KeyKind.Dot:
                 _screen = "0.";
-                return CalcState.Input2; //3
+                return CalcState.Input2; 
             case KeyKind.ChangeSign:
-                return CalcState.Operation; //2
+                return CalcState.Operation; 
             case KeyKind.Operation:
                 _op = key;
-                return CalcState.Operation; //2
+                return CalcState.Operation; 
             case KeyKind.Equal:
                 _screen = Calc(_memory, _screen, _op);
-                return CalcState.Answer; //4
+                return CalcState.Answer; 
             case KeyKind.Clear:
                 Clear();
-                return CalcState.Input1; //1
+                return CalcState.Input1; 
             default:
                 _screen = "Error";
-                return CalcState.Error; //5
+                return CalcState.Error; 
         }
-    } //done
+    } 
 
     CalcState ProcessInput2(string key)
     {
@@ -104,34 +102,34 @@ class Calculator
         {
             case KeyKind.Digit:
                 _screen = AddDigit(_screen, key);
-                return CalcState.Input2; //3
+                return CalcState.Input2; 
             case KeyKind.Dot:
                 _screen = AddDot(_screen);
-                return CalcState.Input2; //3
+                return CalcState.Input2; 
             case KeyKind.ChangeSign:
                 _screen = ChangeSign(_screen);
-                return CalcState.Input2; //3
+                return CalcState.Input2; 
             case KeyKind.Operation:
                 _screen = Calc(_memory, _screen, _op);
                 _op = key;
-                return CalcState.Operation; //2
+                return CalcState.Operation; 
             case KeyKind.Equal:
                 var t = Calc(_memory, _screen, _op);
                 if (t == "NaN")
                 {
                     _screen = "Error";
-                    return CalcState.Error; //5*
+                    return CalcState.Error; 
                 }
                 _screen = t;
-                return CalcState.Answer; //4
+                return CalcState.Answer; 
             case KeyKind.Clear:
                 Clear();
-                return CalcState.Input1; //1
+                return CalcState.Input1; 
             default:
                 _screen = "Error";
-                return CalcState.Error; //5
+                return CalcState.Error; 
         }
-    } //done
+    } 
 
     CalcState ProcessAnswer(string key)
     {
@@ -139,32 +137,32 @@ class Calculator
         {
             case KeyKind.Digit:
                 _screen = key;
-                return CalcState.Input1; //1
+                return CalcState.Input1; 
             case KeyKind.Dot:
                 _screen = "0.";
-                return CalcState.Input1; //1
+                return CalcState.Input1; 
             case KeyKind.ChangeSign:
                 _screen = ChangeSign(_screen);
-                return CalcState.Answer; //4
+                return CalcState.Answer; 
             case KeyKind.Operation:
                 _memory = _screen;
                 _op = key;
-                return CalcState.Operation; //2
+                return CalcState.Operation; 
             case KeyKind.Equal:
                 var t = Calc(_memory, _screen, _op);
                 if (t == "NaN")
                 {
                     _screen = "Error";
-                    return CalcState.Error; //5*
+                    return CalcState.Error; 
                 }
                 _screen = t;
-                return CalcState.Answer; //4
+                return CalcState.Answer; 
             case KeyKind.Clear:
                 Clear();
-                return CalcState.Input1; //1
+                return CalcState.Input1; 
             default:
                 _screen = "Error";
-                return CalcState.Error; //5
+                return CalcState.Error; 
         }
     }
 
@@ -262,7 +260,7 @@ class Calculator
                 return KeyKind.Digit;
             case ".":
                 return KeyKind.Dot;
-            case "-/+": //неудобная комбинация, плохо сочетается с посимвольным вводом
+            case "-/+": 
             case "_":
                 return KeyKind.ChangeSign;
             case "+":
